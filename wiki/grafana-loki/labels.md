@@ -2,8 +2,8 @@
 title: Labels in Loki
 summary: How Loki uses labels to define log streams, what makes a good label, and how streams are created.
 updated: 2026-04-15
-sources: Grafana Labs, Loki docs (undated); Nawaz Dhandala (OneUptime), 2026-01-21
-raw: [grafana-understand-labels](../../raw/grafana-loki/grafana-understand-labels.md); [how-to-optimize-loki-label-cardinality](../../raw/grafana-loki/2026-01-21-how-to-optimize-loki-label-cardinality.md)
+sources: Grafana Labs, Loki docs (undated); Nawaz Dhandala (OneUptime), 2026-01-21; Rudi Martinsen, 2024-12-18
+raw: [grafana-understand-labels](../../raw/grafana-loki/grafana-understand-labels.md); [how-to-optimize-loki-label-cardinality](../../raw/grafana-loki/2026-01-21-how-to-optimize-loki-label-cardinality.md); [working-with-structured-metadata-in-grafana-loki](../../raw/grafana-loki/2024-12-18-working-with-structured-metadata-in-grafana-loki.md)
 ---
 
 # Labels in Loki
@@ -77,11 +77,12 @@ If your sources have very different ingestion delays, separate them with a label
 If you need to filter on a high-cardinality or unbounded attribute (user ID, request ID, trace ID, filename in a per-VM scheme), don't promote it to a label. Options:
 
 1. Leave it in the log line and filter with `| json | user_id="…"` at query time.
-2. Promote it to **structured metadata**, which is indexed per-entry without creating new streams (requires Loki 2.9.4+ and schema v13, with `allow_structured_metadata: true`).
+2. Promote it to **structured metadata**, which is attached per-entry without creating new streams (requires Loki 2.9.4+ and schema v13, with `allow_structured_metadata: true`). See [structured-metadata](structured-metadata.md) for the full guide.
 
 See [cardinality](cardinality.md) for the full rationale and remediation patterns.
 
 ## See also
 
 - [cardinality](cardinality.md) — why high cardinality breaks Loki and how to fix it
+- [structured-metadata](structured-metadata.md) — the alternative to labels for high-cardinality fields
 - [multi-tenancy](multi-tenancy.md) — tenant isolation via `X-Scope-OrgID`

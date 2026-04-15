@@ -2,8 +2,8 @@
 title: Cardinality in Loki
 summary: Why high label cardinality breaks Loki, how to detect it, and how to fix it with structured metadata and label discipline.
 updated: 2026-04-15
-sources: Grafana Labs, Loki docs (undated); Nawaz Dhandala (OneUptime), 2026-01-21; jose (Canonical / Charmhub), 2024-09-06
-raw: [grafana-cardinality-docs](../../raw/grafana-loki/grafana-cardinality-docs.md); [how-to-optimize-loki-label-cardinality](../../raw/grafana-loki/2026-01-21-how-to-optimize-loki-label-cardinality.md); [solving-high-cardinality-labels-in-loki](../../raw/grafana-loki/2024-09-06-solving-high-cardinality-labels-in-loki.md)
+sources: Grafana Labs, Loki docs (undated); Nawaz Dhandala (OneUptime), 2026-01-21; jose (Canonical / Charmhub), 2024-09-06; Rudi Martinsen, 2024-12-18
+raw: [grafana-cardinality-docs](../../raw/grafana-loki/grafana-cardinality-docs.md); [how-to-optimize-loki-label-cardinality](../../raw/grafana-loki/2026-01-21-how-to-optimize-loki-label-cardinality.md); [solving-high-cardinality-labels-in-loki](../../raw/grafana-loki/2024-09-06-solving-high-cardinality-labels-in-loki.md); [working-with-structured-metadata-in-grafana-loki](../../raw/grafana-loki/2024-12-18-working-with-structured-metadata-in-grafana-loki.md)
 ---
 
 # Cardinality in Loki
@@ -128,44 +128,19 @@ Query with:
 
 ### 2. Use structured metadata
 
-Structured metadata (Loki 2.7+; GA in 2.9.4) stores per-entry metadata that is **indexed but does not create new streams**. It's the intended solution for trace IDs, request IDs, pod names, and similar fields you still want to filter on.
+Structured metadata (Loki 2.7+; GA in 2.9.4) stores per-entry metadata that is attached to log entries **without being indexed as labels and without creating new streams**. It's the intended solution for trace IDs, request IDs, pod names, filenames, and similar fields you still want to filter on.
 
-Enable in Loki:
+Minimum requirements: `allow_structured_metadata: true` in `limits_config`, and schema v13 or newer in `schema_config`. The pipeline stage on the collector is `structured_metadata:` — use `labeldrop:` after it if the field was already extracted as a label.
 
-```yaml
-limits_config:
-  allow_structured_metadata: true
-
-schema_config:
-  configs:
-    - from: '2024-09-03'
-      index:
-        period: 24h
-        prefix: index_
-      object_store: filesystem
-      schema: v13         # minimum required
-      store: tsdb
-```
-
-In Promtail / Grafana Agent / Alloy — promote to structured metadata and drop as a label:
-
-```yaml
-pipeline_stages:
-  - drop:
-      expression: .*file is a directory.*
-  - structured_metadata:
-      filename: filename
-  - labeldrop:
-      - filename
-```
-
-Query structured metadata with `|`, not `{}`:
+Query with `|`, not `{}`:
 
 ```logql
 {job="varlog_scraper"} | filename="/var/log/pepe.log"
 ```
 
-Note: `{job="varlog_scraper", filename="/var/log/pepe.log"}` returns empty — structured metadata is not an index label.
+`{job="varlog_scraper", filename="/var/log/pepe.log"}` returns empty — structured metadata is not a stream-selector label.
+
+See [structured-metadata](structured-metadata.md) for full configuration, emission patterns, and Grafana quirks.
 
 ### 3. Bucket continuous values
 
@@ -261,4 +236,5 @@ When an existing deployment already has cardinality issues:
 ## See also
 
 - [labels](labels.md) — what labels are and how streams are formed
+- [structured-metadata](structured-metadata.md) — full guide to the structured-metadata feature
 - [multi-tenancy](multi-tenancy.md) — per-tenant overrides live in the same limits config
