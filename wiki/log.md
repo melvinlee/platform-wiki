@@ -1,5 +1,11 @@
 # Wiki Log
 
+## [2026-04-16] ingest | Anomaly Detection Overview
+
+- Updated: Prophet for Time-Series Anomaly Detection
+
+Ingested 3 sources on AI/ML anomaly detection and Prophet into a new topic directory. Created two articles under wiki/anomaly-detection/.
+
 ## [2026-04-15] ingest | Structured Metadata in Loki
 
 - Updated: Cardinality in Loki
