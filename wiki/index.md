@@ -25,3 +25,12 @@ AI/ML-based anomaly detection for observability and time-series data.
 |---------|---------|---------|
 | [Anomaly Detection Overview](anomaly-detection/anomaly-detection-overview.md) | Types of anomalies, why detection matters for observability, best practices, commercial platform capabilities, and emerging trends. | 2026-04-16 |
 | [Prophet for Time-Series Anomaly Detection](anomaly-detection/prophet-anomaly-detection.md) | How to use Meta's Prophet library for time-series anomaly detection in Python, with two approaches and model evaluation. | 2026-04-16 |
+
+## llm-observability
+
+Using LLMs for log analysis, anomaly detection, and automated root cause analysis in observability workflows.
+
+| Article | Summary | Updated |
+|---------|---------|---------|
+| [LLM-based Log Analysis](llm-observability/llm-log-analysis.md) | Using LLMs to parse, structure, summarize, and detect anomalies in log files — techniques, hybrid pipelines, and guardrails. | 2026-04-16 |
+| [Automating RCA with LLMs and MCP](llm-observability/llm-automated-rca.md) | Architecture for automated RCA using Golden Signals alerts, LLM agents, and MCP tools to fetch data and generate root-cause analysis. | 2026-04-16 |

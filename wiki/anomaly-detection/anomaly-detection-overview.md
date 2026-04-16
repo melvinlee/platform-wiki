@@ -74,3 +74,5 @@ All three follow the same pattern: ingest telemetry, learn baselines, alert on d
 ## See also
 
 - [prophet-anomaly-detection](prophet-anomaly-detection.md) — hands-on guide to using Prophet for time-series anomaly detection
+- [LLM-based Log Analysis](../llm-observability/llm-log-analysis.md) — using LLMs for semantic anomaly detection in logs (complementary to statistical approaches)
+- [Automating RCA with LLMs and MCP](../llm-observability/llm-automated-rca.md) — architecture for automated root cause analysis triggered by anomaly alerts

@@ -1,5 +1,12 @@
 # Wiki Log
 
+## [2026-04-16] ingest | LLM-based Log Analysis
+
+- Updated: Automating RCA with LLMs and MCP
+- Updated: Anomaly Detection Overview
+
+Ingested 2 sources on LLM-powered observability into a new topic directory. Created two articles under wiki/llm-observability/. Added cross-references from anomaly-detection-overview.md.
+
 ## [2026-04-16] ingest | Anomaly Detection Overview
 
 - Updated: Prophet for Time-Series Anomaly Detection
